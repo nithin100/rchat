@@ -40,8 +40,8 @@ public class RchatUser implements Serializable {
 	@JsonProperty(access = Access.WRITE_ONLY)
 	private String password;
 
-	@OneToOne
-	private RchatContacts contactsBook;
+	/*@OneToOne
+	private RchatContacts contactsBook;*/
 
 	public String getFirstName() {
 		return firstName;

@@ -8,7 +8,7 @@ import com.rsrit.rchat.models.RchatConversation;
 
 public interface RchatConversationCustomRepo {
 
-	public RchatConversation findConversationByParticipants(String partcipant1UserName, String partcipant2UserName);
+	public int findConversationByParticipants(String partcipant1UserName, String partcipant2UserName);
 
 	public List<RchatConversation> findByParticipant1UserNameOrParticipant2UserName(@Nullable String user1);
 

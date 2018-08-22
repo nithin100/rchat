@@ -1,5 +1,6 @@
 package com.rsrit.rchat.dao.impl;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import com.rsrit.rchat.dao.RchatConversationDao;
 import com.rsrit.rchat.models.RchatConversation;
-import com.rsrit.rchat.models.RchatMessage;
 import com.rsrit.rchat.repo.RchatConversationCustomRepo;
 import com.rsrit.rchat.repo.RchatMessageCustomRepo;
 import com.rsrit.rchat.repo.RchatMessageRepo;
@@ -26,13 +26,21 @@ public class RchatConversationDaoImpl implements RchatConversationDao {
 
 	@Override
 	public List<RchatConversation> getConversationsAndDetailsOfLastSentMessageInEachConversation(String userName) {
+
 		List<RchatConversation> listOfConversationsForUser = conversationCustomRepo
 				.findByParticipant1UserNameOrParticipant2UserName(userName);
 
+		System.out.println("Number of conversation found for user " + listOfConversationsForUser.size());
+
 		for (RchatConversation conversation : listOfConversationsForUser) {
 			int conversation_id = conversation.getConversation_Id();
-			RchatMessage lastSentMessage = messageRepository.findLastByConversation_ConversationId(conversation_id);
-			conversation.setLastMessageSentAt(lastSentMessage.getMessageSentAt());
+
+			System.out.println("process running for " + conversation_id);
+
+			Timestamp lastSentMessageTimeStamp = messageCustomRepo
+					.findWhenLastMessageWasSentByTheUserInAConversation(conversation_id, userName);
+
+			conversation.setLastMessageSentAt(lastSentMessageTimeStamp);
 
 			int numberOfUnreadMessages = messageCustomRepo
 					.findNumberOfUnreadMessagesOfUserInEveryCoversationByCoversationIdAndUserName(conversation_id,
@@ -40,6 +48,7 @@ public class RchatConversationDaoImpl implements RchatConversationDao {
 
 			System.out.println("Number of unread messages of user " + userName + " in conversation " + conversation_id
 					+ " are " + numberOfUnreadMessages);
+
 			conversation.setNumberOfUnreadMessages(numberOfUnreadMessages);
 
 		}

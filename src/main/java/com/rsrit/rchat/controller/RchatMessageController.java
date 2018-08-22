@@ -1,5 +1,6 @@
 package com.rsrit.rchat.controller;
 
+import org.apache.commons.lang3.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -7,6 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.rsrit.rchat.models.RchatMessage;
 import com.rsrit.rchat.repo.RchatConversationCustomRepo;
+import com.rsrit.rchat.service.RchatMessageService;
 
 /*
  * Use WebSockets for message sending
@@ -20,16 +22,16 @@ public class RchatMessageController {
 	@Autowired
 	RchatConversationCustomRepo conversationCustomRepo;
 
+	@Autowired
+	RchatMessageService messageService;
+
 	@RequestMapping("send")
-	public void sendMessage(@RequestBody RchatMessage messageToBeSent) {
+	public RchatMessage sendMessage(@RequestBody RchatMessage messageToBeSent) {
+		Validate.notNull(messageToBeSent.getMessageContent(), "Message content cannot be empty");
+		Validate.notNull(messageToBeSent.getMessageSender(), "Message should have a Sender");
+		Validate.notNull(messageToBeSent.getMessageReceiver(), "Message should have a Receiver");
 
-		if (messageToBeSent.getConversation() != null) {
-			// save message directly in message table
-		} else {
-			conversationCustomRepo.findConversationByParticipants(messageToBeSent.getMessageSender(),
-					messageToBeSent.getMessageReceiver());
-		}
-
+		return messageService.addMessageToTheConversation(messageToBeSent);
 	}
 
 }

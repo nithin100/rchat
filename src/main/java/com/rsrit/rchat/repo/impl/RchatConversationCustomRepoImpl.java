@@ -33,7 +33,8 @@ public class RchatConversationCustomRepoImpl implements RchatConversationCustomR
 	private static final String QUERY_FOR_RETRIEVING_CONVERSATIONS_OF_USER = "SELECT * FROM rchat_conversations WHERE participant_user1=? OR participant_user2=?";
 
 	@Override
-	public RchatConversation findConversationByParticipants(String partcipant1UserName, String partcipant2UserName) {
+	public int findConversationByParticipants(String partcipant1UserName, String partcipant2UserName) {
+		
 		Query nativeQuery = entityManager.createNativeQuery(QUERY_FOR_RETRIEVING_CONVERSATION_WITH_PARTICIPANTS);
 
 		nativeQuery.setParameter(1, partcipant1UserName);
@@ -44,15 +45,7 @@ public class RchatConversationCustomRepoImpl implements RchatConversationCustomR
 		int conversation_id = (((int) nativeQuery.getResultList().size() == 0) ? 0
 				: (int) nativeQuery.getResultList().get(0));
 
-		if (conversation_id == 0) {
-			RchatConversation conversation = new RchatConversation(partcipant1UserName, partcipant2UserName);
-			conversation.setMessagesOfTheConversation(Arrays.asList(new RchatMessage(conversation, partcipant1UserName,
-					partcipant2UserName, "Hi", new Timestamp(System.currentTimeMillis()), false)));
-			conversationRepo.save(conversation);
-			System.out.println("new conversation saved");
-		}
-
-		return null;
+		return conversation_id;
 	}
 
 	@Override
@@ -71,7 +64,7 @@ public class RchatConversationCustomRepoImpl implements RchatConversationCustomR
 
 		List<RchatConversation> listOfConversationsOfUser = findConversationsOfUser.getResultList();
 
-		//System.out.println(listOfConversationsOfUser.get(0));
+		// System.out.println(listOfConversationsOfUser.get(0));
 
 		return listOfConversationsOfUser;
 	}

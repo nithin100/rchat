@@ -2,7 +2,9 @@ package com.rsrit.rchat.models;
 
 import java.sql.Timestamp;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -18,8 +20,9 @@ public class RchatMessage {
 	@GeneratedValue
 	private int message_Id;
 
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
 	@JoinColumn(name = "conversation_id")
+	@JsonProperty(access = Access.READ_ONLY)
 	private RchatConversation conversation;
 
 	private String messageSender;
@@ -29,7 +32,7 @@ public class RchatMessage {
 	private String messageContent;
 
 	@JsonProperty(access = Access.READ_ONLY)
-	private Timestamp messageSentAt;
+	private Timestamp messageSentAt = new Timestamp(System.currentTimeMillis());
 
 	@JsonProperty(access = Access.READ_ONLY)
 	private boolean isMessageRead;
@@ -55,7 +58,7 @@ public class RchatMessage {
 	}
 
 	public void setConversation(RchatConversation conversation) {
-		conversation.getMessagesOfTheConversation().add(this);
+		// conversation.getMessagesOfTheConversation().add(this);
 		this.conversation = conversation;
 	}
 
@@ -88,7 +91,7 @@ public class RchatMessage {
 	}
 
 	public void setMessageSentAt(Timestamp messageSentAt) {
-		this.messageSentAt = messageSentAt;
+		this.messageSentAt = new Timestamp(System.currentTimeMillis());
 	}
 
 	public boolean isMessageRead() {
