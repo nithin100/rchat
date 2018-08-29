@@ -1,8 +1,5 @@
 package com.rsrit.rchat.repo.impl;
 
-import java.sql.Date;
-import java.sql.Timestamp;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -14,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.rsrit.rchat.models.RchatConversation;
-import com.rsrit.rchat.models.RchatMessage;
 import com.rsrit.rchat.repo.RchatConversationCustomRepo;
 import com.rsrit.rchat.repo.RchatConversationRepo;
 

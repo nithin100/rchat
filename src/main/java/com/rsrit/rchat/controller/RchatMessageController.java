@@ -2,6 +2,8 @@ package com.rsrit.rchat.controller;
 
 import org.apache.commons.lang3.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,13 +26,19 @@ public class RchatMessageController {
 
 	@Autowired
 	RchatMessageService messageService;
+	
+	@Autowired 
+	SimpMessagingTemplate messagingTemplate;
 
-	@RequestMapping("send")
+	//@RequestMapping("send")
+	@MessageMapping("send")
 	public RchatMessage sendMessage(@RequestBody RchatMessage messageToBeSent) {
 		Validate.notNull(messageToBeSent.getMessageContent(), "Message content cannot be empty");
 		Validate.notNull(messageToBeSent.getMessageSender(), "Message should have a Sender");
 		Validate.notNull(messageToBeSent.getMessageReceiver(), "Message should have a Receiver");
-
+		
+		//messagingTemplate.
+		
 		return messageService.addMessageToTheConversation(messageToBeSent);
 	}
 
