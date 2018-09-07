@@ -34,7 +34,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 		.anyRequest()
 		.authenticated()
 		.and()
-		.csrf().ignoringAntMatchers("/ws/**","/h2/*");
+		.csrf().ignoringAntMatchers("/ws/**","/h2/*","/rchat/api/user/**");
 		super.configure(http);
 	}
 
