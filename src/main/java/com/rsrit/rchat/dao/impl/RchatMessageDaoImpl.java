@@ -36,6 +36,8 @@ public class RchatMessageDaoImpl implements RchatMessageDao {
 			// persist message directly as this will automatically create a new conversation
 			// in DB
 			System.out.println("No conversations exists and hence it should create a new conversation");
+			newMessage.setConversation(
+					new RchatConversation(newMessage.getMessageReceiver(), newMessage.getMessageSender()));
 			return messageJpaRepo.save(newMessage);
 
 		} else {

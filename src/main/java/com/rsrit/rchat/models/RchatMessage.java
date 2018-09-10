@@ -20,7 +20,7 @@ public class RchatMessage {
 	@GeneratedValue
 	private int message_Id;
 
-	@ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name = "conversation_id")
 	@JsonProperty(access = Access.READ_ONLY)
 	private RchatConversation conversation;
