@@ -20,22 +20,20 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
 		http
-		.headers().frameOptions().disable()
+		.headers().frameOptions().sameOrigin()
 		.and()
 		.authorizeRequests()
-		.antMatchers("/stomp/**")
-		.permitAll()
 		.antMatchers("/rchat/api/user/**")
-		.permitAll()
-		.antMatchers("/ws/**")
 		.permitAll()
 		.antMatchers("/h2/*")
 		.permitAll()
+		.antMatchers("/stomp/**")
+		.authenticated()
 		.anyRequest()
 		.authenticated()
 		.and()
 		//.csrf().disable();
-		.csrf().ignoringAntMatchers("/ws/**","/h2/*","/rchat/api/user/**");
+		.csrf().ignoringAntMatchers("/h2/*","/rchat/api/user/**");
 		super.configure(http);
 	}
 

@@ -58,7 +58,6 @@ public class RchatMessage {
 	}
 
 	public void setConversation(RchatConversation conversation) {
-		// conversation.getMessagesOfTheConversation().add(this);
 		this.conversation = conversation;
 	}
 
@@ -100,6 +99,12 @@ public class RchatMessage {
 
 	public void setMessageRead(boolean isMessageRead) {
 		this.isMessageRead = isMessageRead;
+	}
+
+	@Override
+	public String toString() {
+		return "RchatMessage [messageSender=" + messageSender + ", messageReceiver=" + messageReceiver
+				+ ", messageContent=" + messageContent + "]";
 	}
 
 }

@@ -63,8 +63,8 @@
 
 		<dependency>
 			<groupId>org.springframework.security.oauth.boot</groupId>
-    		<artifactId>spring-security-oauth2-autoconfigure</artifactId>
-    		<version>2.0.1.RELEASE</version>
+			<artifactId>spring-security-oauth2-autoconfigure</artifactId>
+			<version>2.0.1.RELEASE</version>
 		</dependency>
 
 		<!-- Security & Oauth2 -->
@@ -84,6 +84,11 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
 		</dependency>
+		
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-messaging</artifactId>
+			</dependency>
 	</dependencies>
 
 	<build>
