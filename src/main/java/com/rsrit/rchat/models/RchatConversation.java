@@ -48,6 +48,10 @@ public class RchatConversation {
 	@JsonIgnore
 	@OneToMany(mappedBy = "conversation", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private List<RchatMessage> messagesOfTheConversation;
+	
+	@Transient
+	@JsonProperty(access=Access.READ_ONLY)
+	public String secondParticipant;
 
 	public RchatConversation() {
 
@@ -113,6 +117,16 @@ public class RchatConversation {
 
 	public void setMessagesOfTheConversation(List<RchatMessage> messagesOfTheConversation) {
 		this.messagesOfTheConversation = messagesOfTheConversation;
+	}
+	
+	
+
+	public String getSecondParticipant() {
+		return secondParticipant;
+	}
+
+	public void setSecondParticipant(String secondParticipant) {
+		this.secondParticipant = secondParticipant;
 	}
 
 	@Override

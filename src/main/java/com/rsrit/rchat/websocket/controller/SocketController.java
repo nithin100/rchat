@@ -33,6 +33,7 @@ public class SocketController {
 	@MessageMapping("/stomp/socket")
 	public RchatMessage onMessageReceival(@RequestBody RchatMessage messageToBeSent, Principal user,
 			@Header("simpSessionId") String sessionId) {
+		
 		Validate.notNull(messageToBeSent.getMessageContent(), "Message content cannot be empty");
 		Validate.notNull(messageToBeSent.getMessageSender(), "Message should have a Sender");
 		Validate.notNull(messageToBeSent.getMessageReceiver(), "Message should have a Receiver");

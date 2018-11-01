@@ -16,6 +16,8 @@ import org.springframework.stereotype.Service;
 import com.rsrit.rchat.models.RchatUser;
 import com.rsrit.rchat.repo.RchatUserRepo;
 
+//toDo: Validate provided username is an email type or just a plain name
+
 @Service
 @Transactional
 public class UserService implements UserDetailsService {
@@ -28,6 +30,7 @@ public class UserService implements UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(String nameOrEmail) throws UsernameNotFoundException {
+		
 		RchatUser user = userRepo.findByEmailOrUserName(null, nameOrEmail);
 		if (user != null) {
 			User userDetails = new User(user.getUserName(), user.getPassword(), true, true, true, true,

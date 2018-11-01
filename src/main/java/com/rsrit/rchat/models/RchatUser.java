@@ -37,7 +37,10 @@ public class RchatUser implements Serializable {
 
 	@JsonProperty(access = Access.WRITE_ONLY)
 	private String password;
-
+	
+	private String mobile;
+	
+	
 	/*@OneToOne
 	private RchatContacts contactsBook;*/
 
@@ -95,6 +98,14 @@ public class RchatUser implements Serializable {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	
+	public String getMobile() {
+		return mobile;
+	}
+
+	public void setMobile(String mobile) {
+		this.mobile = mobile;
 	}
 
 	public RchatUser(String firstName, String lastName, String email, String userName, String gender, int isActive,

@@ -32,28 +32,48 @@ public class RchatConversationDaoImpl implements RchatConversationDao {
 
 		System.out.println("Number of conversation found for user " + listOfConversationsForUser.size());
 
+		/*For each conversation set i) Timestamp of most recently sent message
+									ii) number of unread messages on receiver end
+									iii) other participants name*/
+		
 		for (RchatConversation conversation : listOfConversationsForUser) {
 			int conversation_id = conversation.getConversation_Id();
 
-			System.out.println("process running for " + conversation_id);
-
-			Timestamp lastSentMessageTimeStamp = messageCustomRepo
-					.findWhenLastMessageWasSentByTheUserInAConversation(conversation_id, userName);
-
+			Timestamp lastSentMessageTimeStamp = getLastMessageTimestamp(userName, conversation_id);
+			int numberOfUnreadMessages = getCountOfUnreadMessages(userName, conversation_id);
+			String otherParticipantName = getOtherParticipantNameInConversation(userName, conversation);
+			
 			conversation.setLastMessageSentAt(lastSentMessageTimeStamp);
-
-			int numberOfUnreadMessages = messageCustomRepo
-					.findNumberOfUnreadMessagesOfUserInEveryCoversationByCoversationIdAndUserName(conversation_id,
-							userName);
-
-			System.out.println("Number of unread messages of user " + userName + " in conversation " + conversation_id
-					+ " are " + numberOfUnreadMessages);
-
 			conversation.setNumberOfUnreadMessages(numberOfUnreadMessages);
+			conversation.setSecondParticipant(otherParticipantName);
 
 		}
 
 		return listOfConversationsForUser;
+	}
+
+	private int getCountOfUnreadMessages(String userName, int conversation_id) {
+		int numberOfUnreadMessages = messageCustomRepo
+				.findNumberOfUnreadMessagesOfUserInEveryCoversationByCoversationIdAndUserName(conversation_id,
+						userName);
+		return numberOfUnreadMessages;
+	}
+
+	
+	private Timestamp getLastMessageTimestamp(String userName, int conversation_id) {
+		System.out.println("process running for " + conversation_id);
+
+		Timestamp lastSentMessageTimeStamp = messageCustomRepo
+				.findWhenLastMessageWasSentByTheUserInAConversation(conversation_id, userName);
+		return lastSentMessageTimeStamp;
+	}
+
+	
+	private String getOtherParticipantNameInConversation(String userName, RchatConversation conversation) {
+
+		return userName.equals(conversation.getParticipant1UserName()) ? conversation.getParticipant2UserName()
+				: conversation.getParticipant1UserName();
+
 	}
 
 }
